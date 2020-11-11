@@ -1,7 +1,12 @@
+import Test from './Test';
+import LogEntries from './LogEntries';
 
 function App() {
   return (
-    <h1>Calorie Tracker</h1>
+    <>
+      <Test headingText="Calorie Tracker" />
+      <LogEntries />
+    </>
   );
 }
 
