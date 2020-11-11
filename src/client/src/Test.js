@@ -8,11 +8,11 @@ function Test({ headingText }) {
   };
 
   return (
-    <>
-      <h1>{headingText}</h1>
+    <div>
+      <h2>{headingText}</h2>
       <button type="button" onClick={handleClick}>Click Me</button>
       <p>{count}</p>
-    </>
+    </div>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function LogEntries() {
   const [entries, setEntries] = useState([]);
@@ -13,9 +14,14 @@ function LogEntries() {
   }, []);
 
   return (
-    <ul>
-      {entries.map(entry => <li key={entry.id}>{entry.description}</li>)}
-    </ul>
+    <div>
+      <h2>Log Entries</h2>
+      <ul>
+        {entries.map(entry => (
+          <li key={entry.id}>{entry.description} <Link to={`/logentry/${entry.id}`}>Edit</Link></li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
