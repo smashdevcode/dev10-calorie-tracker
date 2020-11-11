@@ -1,37 +1,38 @@
 package learn.calorietracker.data;
 
-import com.mysql.cj.log.Log;
-import learn.calorietracker.App;
 import learn.calorietracker.models.LogEntry;
 import learn.calorietracker.models.LogEntryType;
-import learn.calorietracker.ui.Controller;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class LogEntryJdbcTemplateRepositoryTest {
-    private final LogEntryJdbcTemplateRepository repository;
+    @Autowired
+    LogEntryJdbcTemplateRepository repository;
 
-    public LogEntryJdbcTemplateRepositoryTest() {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DbTestConfig.class);
-        repository = context.getBean(LogEntryJdbcTemplateRepository.class);
-    }
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
-    @BeforeAll
-    static void oneTimeSetup() {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DbTestConfig.class);
-        JdbcTemplate jdbcTemplate = context.getBean(JdbcTemplate.class);
-        jdbcTemplate.update("call set_known_good_state();");
+    static boolean hasSetUp = false;
+
+    @BeforeEach
+    void setup() {
+        if (!hasSetUp) {
+            hasSetUp = true;
+            jdbcTemplate.update("call set_known_good_state();");
+        }
     }
 
     @Test
-    void shouldFindAll() throws DataAccessException {
+    void shouldFindAll() {
         List<LogEntry> all = repository.findAll();
 
         assertNotNull(all);
@@ -42,7 +43,7 @@ class LogEntryJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldFindByType() throws DataAccessException {
+    void shouldFindByType() {
         List<LogEntry> all = repository.findByType(LogEntryType.BREAKFAST);
 
         assertNotNull(all);
@@ -52,8 +53,8 @@ class LogEntryJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldCreate() throws DataAccessException {
-        LogEntry logEntry = new LogEntry(0, "2021-01-01 09:00:00",
+    void shouldCreate() {
+        LogEntry logEntry = new LogEntry(0, LocalDateTime.parse("2021-01-01T09:00:00"),
                 LogEntryType.SECOND_BREAKFAST, "Oatmeal", 400);
 
         LogEntry actual = repository.create(logEntry);
@@ -61,4 +62,6 @@ class LogEntryJdbcTemplateRepositoryTest {
         assertNotNull(actual);
         assertTrue(actual.getId() > 0);
     }
+
+    // TODO write more repository tests
 }
