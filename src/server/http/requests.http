@@ -7,8 +7,8 @@ POST http://localhost:8080/authenticate HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "admin",
-    "password": "admin"
+    "username": "smashdev5",
+    "password": "Asdff88f67!"
 }
 
 ###
@@ -30,3 +30,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYWxvcmllLXRyYWNrZXIiLCJzd
 
 POST http://localhost:8080/refresh_token HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjYWxvcmllLXRyYWNrZXIiLCJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTYwNTE2MDAxNX0.lsQsKXUBDts-w8YhPWmdQ_mmTmERNMXyAIWBVPYGLP8
+
+###
+
+POST http://localhost:8080/create_account HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "smashdev5",
+  "password": "Asdff88f67!"
+}
