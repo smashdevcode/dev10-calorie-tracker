@@ -61,6 +61,7 @@ class LogEntryJdbcTemplateRepositoryTest {
 
         assertNotNull(actual);
         assertTrue(actual.getId() > 0);
+        assertEquals(logEntry, actual);
     }
 
     // TODO write more repository tests
