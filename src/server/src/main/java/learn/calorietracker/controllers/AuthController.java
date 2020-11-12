@@ -17,6 +17,8 @@ import java.util.Map;
 
 @RestController
 public class AuthController {
+    // The `AuthenticationManager` interface defines a single method `authenticate()`
+    // that processes an Authentication request.
     private final AuthenticationManager authenticationManager;
     private final JwtConverter converter;
 
@@ -27,15 +29,24 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody Map<String, String> credentials) {
-
+        // The `UsernamePasswordAuthenticationToken` class is an `Authentication` implementation
+        // that is designed for simple presentation of a username and password.
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(credentials.get("username"), credentials.get("password"));
 
         try {
+            // The `Authentication` interface Represents the token for an authentication request
+            // or for an authenticated principal once the request has been processed by the //
+            // `AuthenticationManager.authenticate(Authentication)` method.
             Authentication authentication = authenticationManager.authenticate(authToken);
 
             if (authentication.isAuthenticated()) {
-                String jwtToken = converter.getTokenFromUser((User) authentication.getPrincipal());
+                // The `User` class models core user information retrieved by a `UserDetailsService`.
+                // Developers may use this class directly, subclass it, or write their own
+                // `UserDetails` implementation from scratch.
+                User user = (User)authentication.getPrincipal();
+
+                String jwtToken = converter.getTokenFromUser(user);
 
                 HashMap<String, String> map = new HashMap<>();
                 map.put("jwt_token", jwtToken);
