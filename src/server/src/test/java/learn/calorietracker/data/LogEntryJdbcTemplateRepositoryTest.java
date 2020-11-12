@@ -54,6 +54,7 @@ class LogEntryJdbcTemplateRepositoryTest {
 
     @Test
     void shouldCreate() {
+        // TODO determine why the local date time value is being saved in UTC
         LogEntry logEntry = new LogEntry(0, LocalDateTime.parse("2021-01-01T09:00:00"),
                 LogEntryType.SECOND_BREAKFAST, "Oatmeal", 400);
 
