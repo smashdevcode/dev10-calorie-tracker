@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
-import { useAuth } from './auth.js';
 import Errors from './Errors';
 
-export default function Login() {
+export default function Login({ auth }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
   const location = useLocation();
-  const auth = useAuth();
 
   const { state: { from } = { from : '/' } } = location;
 

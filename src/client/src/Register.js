@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import { useAuth } from './auth.js';
 import Errors from './Errors';
 
-export default function Register() {
+export default function Register({ auth }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
-  const auth = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -1,10 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { useAuth } from './auth';
-
-export default function NavBar() {
-  const auth = useAuth();
-
+export default function NavBar({ auth }) {
   return (
     <div>
       <ul>
