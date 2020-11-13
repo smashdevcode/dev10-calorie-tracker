@@ -15,6 +15,7 @@ import LogEntry from './LogEntry';
 import Login from './Login';
 import Register from './Register';
 import NavBar from './NavBar';
+import AuthContext from './AuthContext';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -110,39 +111,49 @@ function App() {
   }
   
   return (
-    <Router>
-      <div>
-        <h1>Calorie Tracker</h1>
+    <AuthContext.Provider value={auth}>
+      <Router>
+        <div>
+          <h1>Calorie Tracker</h1>
 
-        <NavBar auth={auth} />
+          <NavBar />
 
-        <hr />
+          <hr />
 
-        <Switch>
-          <Route exact path="/">
-            <Test headingText="Home" />
-          </Route>
-          <Route path="/logentries">
-            <LogEntries />
-          </Route>
-          <PrivateRoute path="/logentry/:id">
-            <LogEntry />
-          </PrivateRoute>
-          <PrivateRoute path="/profile">
-            <Profile />
-          </PrivateRoute>
-          <Route path="/login">
-            <Login auth={auth} />
-          </Route>
-          <Route path="/register">
-            <Register auth={auth} />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+          <Switch>
+            <Route exact path="/">
+              <Test headingText="Home" />
+            </Route>
+            <Route path="/logentries">
+              <LogEntries />
+            </Route>
+            <Route path="/logentry/:id">
+              {auth.user ? (
+                <LogEntry />
+              ) : (
+                <Redirect to="/login" />  
+              )}
+            </Route>
+            <Route path="/profile">
+              {auth.user ? (
+                <Profile />
+              ) : (
+                <Redirect to="/login" />  
+              )}
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 

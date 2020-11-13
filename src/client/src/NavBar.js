@@ -1,6 +1,11 @@
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function NavBar({ auth }) {
+import AuthContext from './AuthContext';
+
+export default function NavBar() {
+  const auth = useContext(AuthContext);
+
   return (
     <div>
       <ul>
